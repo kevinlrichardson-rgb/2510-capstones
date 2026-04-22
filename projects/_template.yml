@@ -1,4 +1,4 @@
-# Copy this file, rename it to something-descriptive.yml (use hyphens, no spaces),
+# Copy this file, rename it to firstname-lastname-capstone.yml (use hyphens, no spaces),
 # and place it in the projects/ folder. Then open a pull request!
 #
 # Required fields: title, student
@@ -17,5 +17,9 @@ description: >
 repo: ""           # https://github.com/your-username/your-repo
 
 demo: ""           # https://your-live-demo.example.com
+
+# Images — add files to the headshots/ and screenshots/ folders in the repo root.
+# Name them: firstname_lastname_headshot.png and firstname_lastname_screenshot.png
+# The build script picks them up automatically — no changes needed here.
 
 tags: []           # e.g. [React, Node.js, PostgreSQL]

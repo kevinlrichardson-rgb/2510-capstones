@@ -91,6 +91,8 @@ footer a:hover { color: var(--pink); }
   border-radius: 4px;
   padding: 1.25rem;
   transition: border-color 0.15s, box-shadow 0.15s;
+  display: flex;
+  flex-direction: column;
 }
 
 .project-card:hover {
@@ -125,6 +127,28 @@ footer a:hover { color: var(--pink); }
   border-radius: 2px;
 }
 
+/* Card avatar */
+.card-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.card-avatar--empty {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--grey);
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.card-body { flex: 1; }
+
 /* Detail page */
 .back-link {
   display: inline-block;
@@ -137,11 +161,51 @@ footer a:hover { color: var(--pink); }
 
 .back-link:hover { color: var(--pink); text-decoration: underline; }
 
+.detail-header {
+  display: flex;
+  gap: 1.75rem;
+  align-items: flex-start;
+  margin-bottom: 1.75rem;
+}
+
+.detail-headshot {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--red);
+  flex-shrink: 0;
+}
+
+.detail-meta { flex: 1; }
+.detail-meta h1 { margin-bottom: 0.3rem; }
+.detail-meta .student-name { margin-bottom: 0.4rem; }
+.detail-meta .tagline { margin-bottom: 0.75rem; }
+.detail-meta p + p { margin-top: 0.35rem; }
+
 .description {
-  margin: 1.25rem 0;
+  margin-bottom: 1.5rem;
   line-height: 1.7;
   color: #333;
   max-width: 680px;
+}
+
+.detail-screenshot {
+  margin-top: 2rem;
+}
+
+.detail-screenshot img {
+  display: block;
+  width: 100%;
+  max-width: 800px;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+}
+
+.detail-screenshot figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
 }
 
 .empty { font-size: 1.1rem; color: var(--muted); }

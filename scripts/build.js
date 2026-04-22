@@ -6,6 +6,8 @@ const path = require("path");
 const yaml = require("js-yaml");
 
 const PROJECTS_DIR = path.join(__dirname, "..", "projects");
+const HEADSHOTS_DIR = path.join(__dirname, "..", "headshots");
+const SCREENSHOTS_DIR = path.join(__dirname, "..", "screenshots");
 const OUT_DIR = path.join(__dirname, "..", "docs");
 
 // ---------------------------------------------------------------------------
@@ -29,6 +31,22 @@ function escapeHtml(str) {
 
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
+}
+
+// Derive the filename base from a student's full name: "Sam Rivera" → "sam-rivera"
+function studentBase(name) {
+  return name.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+}
+
+// Find the first file in dir whose name (without extension) matches base-suffix
+function findImage(dir, base, suffix) {
+  if (!fs.existsSync(dir)) return null;
+  const target = `${base}-${suffix}`;
+  const match = fs.readdirSync(dir).find((f) => {
+    const noExt = f.slice(0, f.lastIndexOf(".")) || f;
+    return noExt === target;
+  });
+  return match || null;
 }
 
 // ---------------------------------------------------------------------------
@@ -67,7 +85,7 @@ function shell(title, bodyHtml) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${escapeHtml(title)} | Capstone Projects</title>
+  <title>${escapeHtml(title)} | AI/ML Cohort 2510: Student Capstone Projects</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -79,7 +97,7 @@ function shell(title, bodyHtml) {
       <a class="site-logo" href="/2510-capstones/">
         <img src="/2510-capstones/assets/logo.png" alt="Fullstack Academy" height="36" />
       </a>
-      <a class="site-title" href="/2510-capstones/">Student Capstone Projects</a>
+      <a class="site-title" href="/2510-capstones/">AI/ML Cohort 2510: Student Capstone Projects</a>
     </div>
   </header>
   <main>
@@ -101,14 +119,17 @@ function buildIndex(projects) {
     .map(
       (p) => `
     <article class="project-card">
-      <h2><a href="/2510-capstones/projects/${escapeHtml(p._slug)}/">${escapeHtml(p.title)}</a></h2>
-      <p class="student-name">${escapeHtml(p.student)}</p>
-      ${p.tagline ? `<p class="tagline">${escapeHtml(p.tagline)}</p>` : ""}
-      ${
-        p.tags && p.tags.length
-          ? `<ul class="tags">${p.tags.map((t) => `<li>${escapeHtml(t)}</li>`).join("")}</ul>`
-          : ""
-      }
+      ${p._headshot ? `<img class="card-avatar" src="/2510-capstones/assets/headshots/${escapeHtml(p._headshot)}" alt="${escapeHtml(p.student)}" />` : "<div class=\"card-avatar card-avatar--empty\"></div>"}
+      <div class="card-body">
+        <h2><a href="/2510-capstones/projects/${escapeHtml(p._slug)}/">${escapeHtml(p.title)}</a></h2>
+        <p class="student-name">${escapeHtml(p.student)}</p>
+        ${p.tagline ? `<p class="tagline">${escapeHtml(p.tagline)}</p>` : ""}
+        ${
+          p.tags && p.tags.length
+            ? `<ul class="tags">${p.tags.map((t) => `<li>${escapeHtml(t)}</li>`).join("")}</ul>`
+            : ""
+        }
+      </div>
     </article>`
     )
     .join("\n");
@@ -139,16 +160,31 @@ function buildDetail(p) {
   const descLine = p.description
     ? `<div class="description"><p>${escapeHtml(p.description)}</p></div>`
     : "";
+  const headshotImg = p._headshot
+    ? `<img class="detail-headshot" src="/2510-capstones/assets/headshots/${escapeHtml(p._headshot)}" alt="${escapeHtml(p.student)}" />`
+    : "";
+  const screenshotFig = p._screenshot
+    ? `<figure class="detail-screenshot">
+        <img src="/2510-capstones/assets/screenshots/${escapeHtml(p._screenshot)}" alt="${escapeHtml(p.title)} screenshot" />
+        <figcaption>${escapeHtml(p.title)} — app screenshot</figcaption>
+      </figure>`
+    : "";
 
   const body = `
     <a class="back-link" href="/2510-capstones/">&larr; All Projects</a>
-    <h1>${escapeHtml(p.title)}</h1>
-    <p class="student-name">${escapeHtml(p.student)}</p>
-    ${p.tagline ? `<p class="tagline">${escapeHtml(p.tagline)}</p>` : ""}
+    <div class="detail-header">
+      ${headshotImg}
+      <div class="detail-meta">
+        <h1>${escapeHtml(p.title)}</h1>
+        <p class="student-name">${escapeHtml(p.student)}</p>
+        ${p.tagline ? `<p class="tagline">${escapeHtml(p.tagline)}</p>` : ""}
+        ${repoLine}
+        ${demoLine}
+        ${tagsLine}
+      </div>
+    </div>
     ${descLine}
-    ${repoLine}
-    ${demoLine}
-    ${tagsLine}`;
+    ${screenshotFig}`;
 
   return shell(p.title, body);
 }
@@ -251,6 +287,8 @@ footer a:hover { color: var(--pink); }
   border-radius: 4px;
   padding: 1.25rem;
   transition: border-color 0.15s, box-shadow 0.15s;
+  display: flex;
+  flex-direction: column;
 }
 
 .project-card:hover {
@@ -285,6 +323,28 @@ footer a:hover { color: var(--pink); }
   border-radius: 2px;
 }
 
+/* Card avatar */
+.card-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.card-avatar--empty {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--grey);
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.card-body { flex: 1; }
+
 /* Detail page */
 .back-link {
   display: inline-block;
@@ -297,11 +357,51 @@ footer a:hover { color: var(--pink); }
 
 .back-link:hover { color: var(--pink); text-decoration: underline; }
 
+.detail-header {
+  display: flex;
+  gap: 1.75rem;
+  align-items: flex-start;
+  margin-bottom: 1.75rem;
+}
+
+.detail-headshot {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--red);
+  flex-shrink: 0;
+}
+
+.detail-meta { flex: 1; }
+.detail-meta h1 { margin-bottom: 0.3rem; }
+.detail-meta .student-name { margin-bottom: 0.4rem; }
+.detail-meta .tagline { margin-bottom: 0.75rem; }
+.detail-meta p + p { margin-top: 0.35rem; }
+
 .description {
-  margin: 1.25rem 0;
+  margin-bottom: 1.5rem;
   line-height: 1.7;
   color: #333;
   max-width: 680px;
+}
+
+.detail-screenshot {
+  margin-top: 2rem;
+}
+
+.detail-screenshot img {
+  display: block;
+  width: 100%;
+  max-width: 800px;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+}
+
+.detail-screenshot figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
 }
 
 .empty { font-size: 1.1rem; color: var(--muted); }
@@ -315,6 +415,26 @@ function main() {
   ensureDir(OUT_DIR);
 
   const projects = loadProjects();
+
+  // Resolve and copy images
+  const outHeadshots = path.join(OUT_DIR, "assets", "headshots");
+  const outScreenshots = path.join(OUT_DIR, "assets", "screenshots");
+  ensureDir(outHeadshots);
+  ensureDir(outScreenshots);
+
+  for (const p of projects) {
+    const base = studentBase(p.student);
+    const hs = findImage(HEADSHOTS_DIR, base, "headshot");
+    if (hs) {
+      fs.copyFileSync(path.join(HEADSHOTS_DIR, hs), path.join(outHeadshots, hs));
+      p._headshot = hs;
+    }
+    const ss = findImage(SCREENSHOTS_DIR, base, "screenshot");
+    if (ss) {
+      fs.copyFileSync(path.join(SCREENSHOTS_DIR, ss), path.join(outScreenshots, ss));
+      p._screenshot = ss;
+    }
+  }
 
   // Write CSS
   fs.writeFileSync(path.join(OUT_DIR, "style.css"), CSS, "utf8");
@@ -332,9 +452,7 @@ function main() {
     fs.writeFileSync(path.join(dir, "index.html"), buildDetail(p), "utf8");
   }
 
-  console.log(
-    `Built ${projects.length} project page(s) → docs/`
-  );
+  console.log(`Built ${projects.length} project page(s) → docs/`);
 }
 
 main();

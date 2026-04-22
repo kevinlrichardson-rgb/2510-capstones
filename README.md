@@ -10,15 +10,22 @@ A community-maintained showcase of student capstone projects. The site is automa
 
 1. **Fork** this repository and create a new branch (e.g. `add/your-project-name`).
 
-2. **Copy** `projects/_template.yml` to a new file in the same folder:
+2. **Copy** `projects/_template.yml` to a new file in the same folder, named after yourself:
    ```
-   projects/your-project-name.yml
+   projects/firstname-lastname-capstone.yml
    ```
    Use lowercase letters and hyphens — no spaces.
 
 3. **Fill in** your project details. Only `title` and `student` are required; everything else is optional but encouraged.
 
-4. **Open a pull request** back to `main`. A preview build will run automatically so reviewers can check your YAML is valid.
+4. **Add images** (optional) to the repo root folders — name them after yourself with hyphens:
+   ```
+   headshots/firstname-lastname-headshot.png
+   screenshots/firstname-lastname-screenshot.png
+   ```
+   The build script picks them up automatically — no YAML changes needed.
+
+5. **Open a pull request** back to `main`.
 
 5. Once merged, your project appears on the live site within a minute or two.
 
