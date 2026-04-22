@@ -1,0 +1,27 @@
+# Your Project Title
+title: "Recipe Finder App"
+
+# Your full name
+student: "Alex Johnson"
+
+# One-sentence summary (shown on the list page)
+tagline: "Search any ingredient and get recipe ideas instantly."
+
+# Longer description shown on the detail page (optional)
+description: >
+  Recipe Finder lets you type in ingredients you already have at home and
+  returns matching recipes from a public API. Built with React on the
+  frontend and an Express proxy to keep API keys server-side.
+
+# Link to your GitHub repo (optional)
+repo: "https://github.com/alexjohnson/recipe-finder"
+
+# Link to a live demo (optional)
+demo: "https://recipe-finder.vercel.app"
+
+# Short technology tags (optional, max ~5)
+tags:
+  - React
+  - Node.js
+  - Express
+  - REST API

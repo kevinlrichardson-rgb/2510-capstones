@@ -1,0 +1,21 @@
+# Copy this file, rename it to something-descriptive.yml (use hyphens, no spaces),
+# and place it in the projects/ folder. Then open a pull request!
+#
+# Required fields: title, student
+# All other fields are optional but encouraged.
+
+title: ""          # Your project title
+
+student: ""        # Your full name
+
+tagline: ""        # One sentence — shown on the list page
+
+description: >
+  # Add a paragraph or two about what your project does,
+  # what problem it solves, and any interesting technical details.
+
+repo: ""           # https://github.com/your-username/your-repo
+
+demo: ""           # https://your-live-demo.example.com
+
+tags: []           # e.g. [React, Node.js, PostgreSQL]

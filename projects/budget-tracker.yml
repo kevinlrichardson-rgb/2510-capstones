@@ -1,0 +1,21 @@
+title: "Budget Tracker"
+
+student: "Sam Rivera"
+
+tagline: "Track income and expenses with visual charts and CSV export."
+
+description: >
+  Budget Tracker is a full-stack web app that lets users log transactions,
+  categorise spending, and visualise monthly trends with Chart.js. Data
+  is stored in a PostgreSQL database and the backend exposes a REST API
+  built with Express and Sequelize.
+
+repo: "https://github.com/samrivera/budget-tracker"
+
+demo: "https://budget-tracker-demo.netlify.app"
+
+tags:
+  - React
+  - PostgreSQL
+  - Sequelize
+  - Chart.js
