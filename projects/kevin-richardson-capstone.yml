@@ -1,0 +1,49 @@
+# Copy this file, rename it to firstname-lastname-capstone.yml (use hyphens, no spaces),
+# and place it in the projects/ folder. Then open a pull request!
+#
+# Required fields: title, student
+# All other fields are optional but encouraged.
+
+title: "ASL Recognition"          # Your project title
+
+student: "Kevin Richardson"        # Your full name
+
+tagline: "Sign language recognition system for ASL Alphabet and ASL Words"        # One sentence — shown on the list page
+
+description: >
+    This project is a sign language recognition system that utilizes MediaPipe Hands 
+    for hand tracking and a Multilayer Perceptron (MLP) for classification. 
+    The system is designed to recognize American Sign Language (ASL) gestures, providing an 
+    accessible tool for communication between the deaf and hearing communities. 
+    The project is implemented in Python and leverages OpenCV for video processing, 
+    PyTorch for deep learning, and Gradio for creating an interactive web interface.
+
+repo: "https://github.com/kevinlrichardson-rgb/asl-recognition"           # https://github.com/your-username/your-repo
+
+demo: "https://huggingface.co/spaces/klrichardson/asl-recognition"           # https://your-live-demo.example.com
+
+# Contact info (all optional — omitted from the page if blank)
+email: "Kevinlrichardson@gmail.com"          # your@email.com
+website: ""        # https://yoursite.com
+linkedin: "kevinlrichardson"       # your LinkedIn username (not the full URL)
+twitter: ""        # your handle, with or without the @
+github: "kevinlrichardson-rgb"         # your GitHub username
+
+# Images — add files to the headshots/ and screenshots/ folders in the repo root.
+# Name them: firstname_lastname_headshot.png and firstname_lastname_screenshot.png
+# The build script picks them up automatically — no changes needed here.
+
+tags:
+  - MediaPipe Hands
+  - Python
+  - MLP
+  - Gradio
+  - Sign Language Recognition
+  - Gesture Recognition
+  - Deep Learning
+  - LSTM
+  - OpenCV
+  - HuggingFace
+  - PyTorch
+ 
+
